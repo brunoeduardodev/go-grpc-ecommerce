@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+option go_package = "github.com/brunoeduardodev/go-grpc-ecommerce/protos/usermanagement";
+
+service UserManagement {
+  rpc CreateUser(CreateUserRequest) returns (CreateUserResponse);
+}
+
+message CreateUserRequest {
+  string email = 1;
+  string password = 2;
+}
+
+message CreateUserResponse {
+  string id = 1;
+}
