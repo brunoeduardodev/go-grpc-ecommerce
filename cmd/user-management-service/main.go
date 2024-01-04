@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"flag"
 	"fmt"
 	"log"
@@ -14,6 +15,12 @@ var port = flag.Int("port", 50051, "The server port")
 
 type server struct {
 	usermanagement.UserManagementServer
+}
+
+func (s *server) CreateUser(ctx context.Context, input *usermanagement.CreateUserRequest) (*usermanagement.CreateUserResponse, error) {
+	return &usermanagement.CreateUserResponse{
+		Id: "123",
+	}, nil
 }
 
 func main() {
