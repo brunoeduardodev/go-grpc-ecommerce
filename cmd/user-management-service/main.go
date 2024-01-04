@@ -1,5 +1,34 @@
 package main
 
-func main() {
+import (
+	"flag"
+	"fmt"
+	"log"
+	"net"
 
+	usermanagement "github.com/brunoeduardodev/go-grpc-ecommerce/protocols"
+	"google.golang.org/grpc"
+)
+
+var port = flag.Int("port", 50051, "The server port")
+
+type server struct {
+	usermanagement.UserManagementServer
+}
+
+func main() {
+	listener, err := net.Listen("tcp", fmt.Sprintf(":%d", *port))
+
+	if err != nil {
+		log.Fatalf("Could not start tcp listener: %v", err)
+	}
+
+	s := grpc.NewServer()
+	usermanagement.RegisterUserManagementServer(s, &server{})
+	log.Printf("server listening at %v", listener.Addr())
+
+	err = s.Serve(listener)
+	if err != nil {
+		log.Fatalf("failed to serve: %v", err)
+	}
 }
